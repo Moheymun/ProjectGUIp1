@@ -12,11 +12,25 @@ public class GPU {
         this.id = id;
     }
 
-    public int getId() { return id; }
-    public boolean isFree() { return currentJob == null; }
-    public boolean isBusy() { return currentJob != null; }
-    public Job getCurrentJob() { return currentJob; }
-    public int getMinutesRun() { return minutesRun; }
+    public int getId() {
+        return id;
+    }
+
+    public boolean isFree() {
+        return currentJob == null;
+    }
+
+    public boolean isBusy() {
+        return currentJob != null;
+    }
+
+    public Job getCurrentJob() {
+        return currentJob;
+    }
+
+    public int getMinutesRun() {
+        return minutesRun;
+    }
 
     public void start(Job job, LocalDateTime startedAt) {
         if (isBusy()) {
@@ -65,6 +79,7 @@ public class GPU {
         this.startedAt = startedAt;
     }
 
+    @Override
     public String toString() {
         return "GPU" + id;
     }

@@ -25,7 +25,7 @@ public class SchedulerMonitorPanel extends JPanel implements ActionListener {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
 
-        // top bar: clock, start time field and the two buttons
+        // Top bar: clock, start time field and the two buttons.
         JPanel top = new JPanel();
         top.add(new JLabel("Simulated time:"));
         clockLabel = new JLabel();
@@ -40,7 +40,7 @@ public class SchedulerMonitorPanel extends JPanel implements ActionListener {
         top.add(advanceButton);
         add(top, BorderLayout.NORTH);
 
-        // middle: GPU status and waiting jobs
+        // Middle: GPU status and waiting jobs.
         gpuArea = makeArea();
         waitingArea = makeArea();
         JPanel tables = new JPanel(new GridLayout(2, 1, 0, 10));
@@ -48,7 +48,7 @@ public class SchedulerMonitorPanel extends JPanel implements ActionListener {
         tables.add(titled("Waiting jobs", waitingArea));
         add(tables, BorderLayout.CENTER);
 
-        // bottom: counts and utilisation
+        // Bottom: counts and utilisation.
         summaryLabel = new JLabel();
         summaryLabel.setBorder(BorderFactory.createEmptyBorder(6, 2, 6, 2));
         add(summaryLabel, BorderLayout.SOUTH);
@@ -59,6 +59,7 @@ public class SchedulerMonitorPanel extends JPanel implements ActionListener {
         refresh();
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         try {
             if (e.getSource() == initButton) {

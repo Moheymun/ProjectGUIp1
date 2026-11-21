@@ -33,11 +33,25 @@ public class Scheduler {
         this.listener = listener;
     }
 
-    public SimulationClock getClock() { return clock; }
-    public GPU[] getGpus() { return gpus; }
-    public GPU getGpu(int id) { return gpus[id - 1]; }
-    public ArrayList<Job> getQueue() { return new ArrayList<Job>(queue); }
-    public ArrayList<Job> getHistory() { return new ArrayList<Job>(history); }
+    public SimulationClock getClock() {
+        return clock;
+    }
+
+    public GPU[] getGpus() {
+        return gpus;
+    }
+
+    public GPU getGpu(int id) {
+        return gpus[id - 1];
+    }
+
+    public ArrayList<Job> getQueue() {
+        return new ArrayList<Job>(queue);
+    }
+
+    public ArrayList<Job> getHistory() {
+        return new ArrayList<Job>(history);
+    }
 
     // Add an accepted job to the queue and start it if a GPU is free.
     public void submit(Job job) {
@@ -53,7 +67,7 @@ public class Scheduler {
             throw new IllegalStateException("Initialise the clock before advancing.");
         }
 
-        // the GPUs busy this minute count towards utilisation
+        // The GPUs busy this minute count towards utilisation.
         for (int i = 0; i < GPU_COUNT; i++) {
             if (gpus[i].isBusy()) {
                 totalBusyGpuMinutes++;
@@ -62,7 +76,7 @@ public class Scheduler {
 
         clock.advance();
 
-        // add a minute to each running job, complete the finished ones
+        // Add a minute to each running job, complete the finished ones.
         for (int i = 0; i < GPU_COUNT; i++) {
             GPU gpu = gpus[i];
             if (gpu.isBusy()) {
@@ -150,7 +164,7 @@ public class Scheduler {
     }
 
     // Guess when each waiting job will start and finish.
-    // freeIn is a copy of the GPUs' free times so the real GPUs are not changed.
+    // The array freeIn is a copy of the GPUs' free times, so the real GPUs are not changed.
     public ArrayList<QueuePrediction> predictQueue() {
         ArrayList<QueuePrediction> result = new ArrayList<QueuePrediction>();
         if (!clock.isInitialised()) return result;
@@ -166,7 +180,7 @@ public class Scheduler {
         for (int k = 0; k < queue.size(); k++) {
             Job job = queue.get(k);
 
-            // pick the GPU that frees up soonest (ties -> lowest id)
+            // Pick the GPU that frees up soonest (ties -> lowest id).
             int pick = 0;
             for (int i = 1; i < GPU_COUNT; i++) {
                 if (freeIn[i] < freeIn[pick]) {
@@ -188,7 +202,9 @@ public class Scheduler {
         return result;
     }
 
-    public int getTotalBusyGpuMinutes() { return totalBusyGpuMinutes; }
+    public int getTotalBusyGpuMinutes() {
+        return totalBusyGpuMinutes;
+    }
 
     public int busyGpuCount() {
         int n = 0;
@@ -198,7 +214,7 @@ public class Scheduler {
         return n;
     }
 
-    // busy GPU-minutes / (4 * elapsed minutes) * 100; -1 means N/A at the start.
+    // Busy GPU-minutes / (4 * elapsed minutes) * 100; -1 means N/A at the start.
     public double utilisationPercent() {
         int elapsed = clock.getElapsedMinutes();
         if (elapsed <= 0) return -1;

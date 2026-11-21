@@ -33,13 +33,23 @@ public class SimulationClock {
         elapsedMinutes++;
     }
 
-    public boolean isInitialised() { return initialised; }
+    public boolean isInitialised() {
+        return initialised;
+    }
 
-    public LocalDateTime now() { requireInitialised(); return now; }
+    public LocalDateTime now() {
+        requireInitialised();
+        return now;
+    }
 
-    public LocalDateTime getStart() { requireInitialised(); return start; }
+    public LocalDateTime getStart() {
+        requireInitialised();
+        return start;
+    }
 
-    public int getElapsedMinutes() { return elapsedMinutes; }
+    public int getElapsedMinutes() {
+        return elapsedMinutes;
+    }
 
     public String formattedNow() {
         return initialised ? FMT.format(now) : "--/--/---- --:--";

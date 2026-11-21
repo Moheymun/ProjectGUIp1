@@ -14,14 +14,19 @@ public class SchedulerDemo {
         Scheduler scheduler = new Scheduler(clock);
 
         scheduler.setListener(new SchedulerListener() {
+            @Override
             public void onJobCompleted(Job job, int runtimeMinutes) {
                 System.out.println("[allowance] J" + job.getJobId()
                         + " completed, charge " + runtimeMinutes + " min");
             }
+
+            @Override
             public void onRunningCancelled(Job job, int runtimeMinutes) {
                 System.out.println("[allowance] J" + job.getJobId()
                         + " cancelled while running, charge " + runtimeMinutes + " min");
             }
+
+            @Override
             public void onQueuedCancelled(Job job) {
                 System.out.println("[allowance] J" + job.getJobId()
                         + " cancelled while queued, no charge");
@@ -30,13 +35,14 @@ public class SchedulerDemo {
 
         SchedulerMonitorPanel panel = new SchedulerMonitorPanel(scheduler);
 
-        // simple control to add a sample job
+        // Simple control to add a sample job.
         final String[] sizes = {"Small", "Medium", "Large", "Very large"};
         final JComboBox<String> sizeBox = new JComboBox<String>(sizes);
         final JTextField studentField = new JTextField("S001", 6);
         JButton submit = new JButton("Submit sample job");
 
         submit.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (!clock.isInitialised()) {
                     JOptionPane.showMessageDialog(panel,

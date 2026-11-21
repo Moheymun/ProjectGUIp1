@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 // Tests for the scheduler. Each check() prints PASS or FAIL.
-// Run: javac src/*.java -d out  &&  java -cp out SchedulerTests
+// Run: javac src/*.java -d out  &&  java -cp out SchedulerTests.
 public class SchedulerTests {
 
     private static int passed = 0;
@@ -22,7 +22,7 @@ public class SchedulerTests {
         if (failed > 0) System.exit(1);
     }
 
-    // five jobs fill GPU1..4 in order, the fifth waits
+    // Five jobs fill GPU1..4 in order, the fifth waits.
     private static void testFcfsAndGpuOrder() {
         Scheduler s = fresh(at(10, 0));
         Job j1 = small(101, "S001");
@@ -41,7 +41,7 @@ public class SchedulerTests {
         check("4 GPUs busy", s.busyGpuCount() == 4);
     }
 
-    // queue keeps jobs in submission (id) order
+    // Queue keeps jobs in submission (id) order.
     private static void testQueueOrdering() {
         Scheduler s = fresh(at(10, 0));
         for (int id = 1; id <= 4; id++) s.submit(large(10 + id, "S00" + id));
@@ -60,7 +60,7 @@ public class SchedulerTests {
         check("later job with larger id goes last", q2.get(2) == c);
     }
 
-    // predictions when all GPUs are busy
+    // Predictions when all GPUs are busy.
     private static void testPredictions() {
         Scheduler s = fresh(at(10, 0));
         for (int id = 1; id <= 4; id++) s.submit(small(100 + id, "S00" + id));
@@ -84,7 +84,7 @@ public class SchedulerTests {
         check("J106 wait 5 min", p2.getRemainingWaitMinutes() == 5);
     }
 
-    // advancing completes jobs at the right minute and starts the waiting one
+    // Advancing completes jobs at the right minute and starts the waiting one.
     private static void testAdvanceCompletesAndStarts() {
         Recorder rec = new Recorder();
         Scheduler s = fresh(at(10, 0));
@@ -118,7 +118,7 @@ public class SchedulerTests {
         check("queue now empty", s.getQueue().isEmpty());
     }
 
-    // utilisation is N/A at the start, then busy/(4*elapsed)
+    // Utilisation is N/A at the start, then busy/(4*elapsed).
     private static void testUtilisation() {
         Scheduler s = fresh(at(10, 0));
         check("N/A at time zero",
@@ -132,7 +132,7 @@ public class SchedulerTests {
         check("utilisation == 100%", Math.abs(s.utilisationPercent() - 100.0) < 1e-9);
     }
 
-    // cancelling a running job charges the time used and starts the next job
+    // Cancelling a running job charges the time used and starts the next job.
     private static void testRunningCancellation() {
         Recorder rec = new Recorder();
         Scheduler s = fresh(at(10, 0));
@@ -154,7 +154,7 @@ public class SchedulerTests {
         check("J205 started at 10:03", waiter.getStartTime().equals("20/11/2026 10:03"));
     }
 
-    // cancelling a queued job frees nothing on the GPUs
+    // Cancelling a queued job frees nothing on the GPUs.
     private static void testQueuedCancellation() {
         Recorder rec = new Recorder();
         Scheduler s = fresh(at(10, 0));
@@ -203,7 +203,7 @@ public class SchedulerTests {
         }
     }
 
-    // records what the scheduler reported, so the tests can check it
+    // Records what the scheduler reported, so the tests can check it.
     private static class Recorder implements SchedulerListener {
         ArrayList<Integer> completedRuntimes = new ArrayList<Integer>();
         int runningCancelRuntime = -1;
@@ -212,9 +212,11 @@ public class SchedulerTests {
         public void onJobCompleted(Job job, int runtimeMinutes) {
             completedRuntimes.add(runtimeMinutes);
         }
+
         public void onRunningCancelled(Job job, int runtimeMinutes) {
             runningCancelRuntime = runtimeMinutes;
         }
+
         public void onQueuedCancelled(Job job) {
             queuedCancelCount++;
         }
