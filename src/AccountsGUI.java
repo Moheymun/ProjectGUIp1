@@ -4,8 +4,9 @@ import java.io.IOException;
 import javax.swing.*;
 
 public class AccountsGUI extends JFrame implements ActionListener {
-	private static final long serialVersionUID = 1L;
-	private AccountManager manager;
+    private static final long serialVersionUID = 1L;
+
+    private AccountManager manager;
     private JobManager jobManager;
     private StudentDashboardPanel studentDashboard;
 
@@ -142,7 +143,7 @@ public class AccountsGUI extends JFrame implements ActionListener {
         showPanel(loginPanel);
     }
 
-    // Creates a page with a heading and some space around its contents.
+    // Creates a page with a heading and space around its contents.
     private JPanel createPage(String title) {
         JPanel panel = new JPanel(new BorderLayout(10, 15));
         panel.setBackground(background);
